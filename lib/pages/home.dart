@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import '../store/counter.dart';
 import '../hooks/log_state.dart';
 import '../hooks/time_alive.dart';
+import '../hooks/infinite_timer.dart';
 
 class HomePage extends HookWidget {
   final String username;
@@ -16,6 +17,8 @@ class HomePage extends HookWidget {
 
     final controller =
         useAnimationController(duration: Duration(milliseconds: 800));
+
+    int timer = useInfiniteTimer(startNumber: 100);
 
     // final when5 = when((_) => counter0.value >= 5, () => print('>= 5.'));
 
@@ -51,7 +54,7 @@ class HomePage extends HookWidget {
                   height: 200,
                   child: Observer(
                     builder: (_) => Text(
-                      '${counter0.value}',
+                      '${counter0.value} | $timer',
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
