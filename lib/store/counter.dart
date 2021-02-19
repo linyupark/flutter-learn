@@ -8,6 +8,15 @@ abstract class _Counter with Store {
   @observable
   int value = 0;
 
+  @computed
+  String get username => '${user['lastName']} ${user['firstName']}';
+
+  @observable
+  ObservableMap<String, String> user = ObservableMap.of({
+    'firstName': 'Yu',
+    'lastName': 'Lin',
+  });
+
   @action
   void increment() {
     value++;
