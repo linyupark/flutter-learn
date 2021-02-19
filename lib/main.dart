@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
+// import 'package:mobx/mobx.dart';
 import './router.dart';
 import './store/counter.dart';
 
@@ -27,22 +27,22 @@ class MyHomePage extends HookWidget {
     final controller =
         useAnimationController(duration: Duration(milliseconds: 800));
 
-    final when5 = when((_) => counter0.value >= 5, () => print('>= 5.'));
+    // final when5 = when((_) => counter0.value >= 5, () => print('>= 5.'));
 
-    final disposeFixed5 = reaction(
-        (_) => counter0.value, (num) => counter0.value = num >= 5 ? 5 : num);
+    // final disposeFixed5 = reaction(
+    //     (_) => counter0.value, (num) => counter0.value = num >= 5 ? 5 : num);
 
-    useEffect(() {
-      final disposer = autorun((_) {
-        print('${counter0.value}');
-      });
+    // useEffect(() {
+    // final disposer = autorun((_) {
+    //   print('${counter0.value}');
+    // });
 
-      return () {
-        disposer();
-        when5();
-        disposeFixed5();
-      };
-    }, []);
+    // return () {
+    //   disposer();
+    //   when5();
+    //   disposeFixed5();
+    // };
+    // }, []);
 
     return Center(
       child: Column(
