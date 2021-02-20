@@ -4,7 +4,17 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 void _onSuccess(data, params) {}
 void _onError(e, params) {}
 
-Map<String, dynamic> useFutureState(
+// 状态加手动执行函数
+class FutureState {
+  final dynamic data;
+  final bool loading;
+  final Function run;
+
+  const FutureState(this.data, this.loading, this.run);
+}
+
+// hook 函数
+FutureState useFutureState(
   Function futureFunc, [
   Map<String, dynamic> options,
 ]) {
@@ -20,7 +30,7 @@ Map<String, dynamic> useFutureState(
   return use(_FutureFunc(futureFunc, _mergedOptions));
 }
 
-class _FutureFunc extends Hook<Map<String, dynamic>> {
+class _FutureFunc extends Hook<FutureState> {
   const _FutureFunc(this.futureFunc, this.options);
 
   final Function futureFunc;
@@ -30,7 +40,7 @@ class _FutureFunc extends Hook<Map<String, dynamic>> {
   _FutureFuncState createState() => _FutureFuncState();
 }
 
-class _FutureFuncState extends HookState<Map<String, dynamic>, _FutureFunc> {
+class _FutureFuncState extends HookState<FutureState, _FutureFunc> {
   dynamic data;
   bool loading = false;
   Function run;
@@ -67,11 +77,7 @@ class _FutureFuncState extends HookState<Map<String, dynamic>, _FutureFunc> {
 
   @override
   build(BuildContext context) {
-    return {
-      'run': run,
-      'data': data,
-      'loading': loading,
-    };
+    return FutureState(data, loading, run);
   }
 
   @override

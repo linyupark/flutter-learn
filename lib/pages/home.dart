@@ -27,7 +27,13 @@ class HomePage extends HookWidget {
 
     final requestBaidu = useFutureState(([params]) async {
       return await Dio().get("http://www.baidu.com");
-    }, {'manual': true});
+    }, {
+      'manual': true,
+      'onSuccess': (data, params) {
+        print(params);
+        print('data: $data');
+      }
+    });
 
     // final disposeFixed5 = reaction(
     //     (_) => counter0.value, (num) => counter0.value = num >= 5 ? 5 : num);
@@ -76,16 +82,16 @@ class HomePage extends HookWidget {
                 }
                 controller.animateTo(controller.value + .25);
                 loggedNum.value++;
-                requestBaidu['run']();
+                requestBaidu.run();
               },
               child: Text(
                 'Rotate',
                 style: TextStyle(color: Colors.red),
               ),
             ),
-            if (requestBaidu['loading']) Text('loading...'),
-            if (requestBaidu['data'] != null)
-              Text(requestBaidu['data'].toString().substring(0, 100)),
+            if (requestBaidu.loading) Text('loading...'),
+            if (requestBaidu.data != null)
+              Text(requestBaidu.data.toString().substring(0, 100)),
           ],
         ),
       ),
