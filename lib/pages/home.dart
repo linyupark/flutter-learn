@@ -35,20 +35,25 @@ class HomePage extends HookWidget {
       }
     });
 
+    final requestTaobao = useFutureState(([params]) async {
+      return await Dio().get(
+          'https://service-reyif0lj-1259108732.sh.apigw.tencentcs.com/release/dapi?_path=/tbk/dg.material.optional&q=钛金刚');
+    }, {
+      'defaultParams': {'name': 'taobao'}
+    });
+
     // final disposeFixed5 = reaction(
     //     (_) => counter0.value, (num) => counter0.value = num >= 5 ? 5 : num);
 
     useEffect(() {
-      // final disposer = autorun((_) {
-      //   print('${counter0.value}');
-      // });
+      print('requestTaobao.loading : ${requestTaobao.loading}');
 
       return () {
         // disposer();
         when5();
         // disposeFixed5();
       };
-    }, []);
+    }, [requestTaobao.data]);
 
     return Scaffold(
       appBar: AppBar(

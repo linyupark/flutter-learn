@@ -59,6 +59,7 @@ class _FutureFuncState extends HookState<FutureState, _FutureFunc> {
       });
       try {
         dynamic result = await hook.futureFunc(runParams);
+        // print('future run $runParams');
         setState(() {
           loading = false;
           data = result;
