@@ -6,11 +6,11 @@ void _onError(e, params) {}
 
 // 状态加手动执行函数
 class FutureState {
-  final dynamic data;
-  final bool loading;
-  final Function run;
+  dynamic data;
+  bool loading;
+  Function run;
 
-  const FutureState(this.data, this.loading, this.run);
+  FutureState({this.loading});
 }
 
 // hook 函数
@@ -41,44 +41,41 @@ class _FutureFunc extends Hook<FutureState> {
 }
 
 class _FutureFuncState extends HookState<FutureState, _FutureFunc> {
-  dynamic data;
-  bool loading = false;
-  Function run;
+  FutureState result = FutureState(loading: false);
 
   @override
   void initHook() {
     super.initHook();
     // 默认数据
-    data = hook.options['initialData'];
+    result.data = hook.options['initialData'];
 
     // 手动执行函数
-    run = ([params]) async {
+    result.run = ([params]) async {
       final runParams = params ?? hook.options['defaultParams'];
-      setState(() {
-        loading = true;
-      });
+      result.loading = true;
       try {
-        dynamic result = await hook.futureFunc(runParams);
+        result.data = await hook.futureFunc(runParams);
         // print('future run $runParams');
-        setState(() {
-          loading = false;
-          data = result;
-        });
-        hook.options['onSuccess'](data, runParams);
+        result.loading = false;
+        hook.options['onSuccess'](result.data, runParams);
       } catch (e) {
         hook.options['onError'](e, runParams);
+      } finally {
+        setState(() {
+          result.loading = false;
+        });
       }
     };
 
     // 非手动自动执行
     if (hook.options['manual'] == false) {
-      run();
+      result.run();
     }
   }
 
   @override
   build(BuildContext context) {
-    return FutureState(data, loading, run);
+    return result;
   }
 
   @override

@@ -6,7 +6,7 @@ import 'package:mobx/mobx.dart';
 import '../store/counter.dart';
 import '../hooks/log_state.dart';
 import '../hooks/time_alive.dart';
-import '../hooks/infinite_timer.dart';
+// import '../hooks/infinite_timer.dart';
 import '../hooks/future_state.dart';
 
 class HomePage extends HookWidget {
@@ -23,7 +23,7 @@ class HomePage extends HookWidget {
     final controller =
         useAnimationController(duration: Duration(milliseconds: 800));
 
-    int timer = useInfiniteTimer(startNumber: 100);
+    // int timer = useInfiniteTimer(startNumber: 100);
 
     final requestBaidu = useFutureState(([params]) async {
       return await Dio().get("http://www.baidu.com");
@@ -63,6 +63,8 @@ class HomePage extends HookWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            if (requestTaobao.data != null)
+              Text(requestTaobao.data.toString().substring(0, 100)),
             RotationTransition(
               turns: controller,
               child: ColoredBox(
@@ -72,7 +74,8 @@ class HomePage extends HookWidget {
                   height: 200,
                   child: Observer(
                     builder: (_) => Text(
-                      '${counter0.value} | $timer',
+                      // '${counter0.value} | $timer',
+                      '${counter0.value}',
                       style: Theme.of(context).textTheme.headline4,
                     ),
                   ),
