@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:hello/router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:hello/widgets/mega_message.dart';
 import '../store/counter.dart';
+import '../widgets/mega_message.dart';
 
 class LoginPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
+    // Function _messageDispose = () {};
+
     return Observer(
         builder: (_) => Scaffold(
               appBar: AppBar(
@@ -22,6 +26,11 @@ class LoginPage extends HookWidget {
                   FlatButton(
                     onPressed: () {
                       counter0.value = 0;
+                      // _messageDispose = MegaMessage.info(context, '计数器重置为0',
+                      //     duration: 0, onClose: () {
+                      //   MegaMessage.info(context, 'finished');
+                      // });
+                      MegaMessage.info(context, 'finished');
                     },
                     child: Text(
                       'reset',
@@ -41,6 +50,7 @@ class LoginPage extends HookWidget {
                 child: Icon(Icons.exit_to_app),
                 onPressed: () {
                   const username = 'linyu';
+                  // _messageDispose();
                   // Navigator.pushNamed(context, 'home/$username');
                   AppRouter.router.navigateTo(context, 'home/$username',
                       transition: TransitionType.inFromRight, replace: true);
