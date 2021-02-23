@@ -6,7 +6,7 @@ class _ToastWidget extends HookWidget {
 
   // 消息内容
   final dynamic content;
-  // 消息类型 info,success,error,custom
+  // 消息类型 info,success,error,loading,custom
   final String type;
   // 消息位置 0 - 100 相对视图高度
   final int vh;
@@ -26,19 +26,27 @@ class _ToastWidget extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final int _ms = 200;
+
     final Duration _fadeInDuration = Duration(milliseconds: _ms);
-    final AnimationController _controller =
-        useAnimationController(duration: _fadeInDuration);
-    useAnimation(Tween(begin: 0.0, end: 1.0).animate(_controller));
-    _controller.forward();
+
+    // 渐变动画控制器
+    final AnimationController _fadeInController =
+        useAnimationController(duration: _fadeInDuration)..forward();
+
+    // 旋转动画控制器
+    final AnimationController _repeatController =
+        useAnimationController(duration: Duration(milliseconds: 1000))
+          ..repeat();
+
+    // 控制渐变起始数值
+    useAnimation(Tween(begin: 0.0, end: 1.0).animate(_fadeInController));
 
     useEffect(() {
       // 淡出效果
       if (durationSec > 0) {
         Future.delayed(Duration(milliseconds: (durationSec * 1000 - _ms)))
             .then((_) {
-          _controller.reset();
-          // print(_controller.value);
+          _fadeInController.reset();
         });
       }
       return () {};
@@ -48,6 +56,24 @@ class _ToastWidget extends HookWidget {
     dynamic _messageText;
     if (type != 'custom') {
       _messageText = Text(content, style: TextStyle(color: Colors.white));
+    }
+
+    if (type == 'loading') {
+      _messageText = Column(children: [
+        RotationTransition(
+          // 使用旋转
+          turns: _repeatController,
+          child: Icon(
+            IconData(58834, fontFamily: 'MaterialIcons'),
+            color: Colors.white,
+            size: 40,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+          child: Text(content, style: TextStyle(color: Colors.white)),
+        ),
+      ]);
     }
 
     if (type == 'success') {
@@ -121,7 +147,7 @@ class _ToastWidget extends HookWidget {
       top: MediaQuery.of(context).size.height * (vh / 100),
       child: Material(
         child: AnimatedOpacity(
-          opacity: _controller.value,
+          opacity: _fadeInController.value,
           duration: _fadeInDuration,
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -150,6 +176,21 @@ class MegaToast {
       duration: duration,
       vw: vw,
       vh: vh,
+      onClose: onClose,
+    );
+  }
+
+  static loading(
+    BuildContext context,
+    String content, {
+    int duration,
+    Function onClose,
+  }) {
+    return _show(
+      type: 'loading',
+      context: context,
+      content: content,
+      duration: duration,
       onClose: onClose,
     );
   }

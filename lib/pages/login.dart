@@ -30,16 +30,17 @@ class LoginPage extends HookWidget {
                       //   MegaMessage.info(context, 'finished');
                       // });
                       // MegaToast.error(context, 'Loading Data Failed');
-                      MegaToast.custom(
-                        context,
-                        Card(
-                          child: Padding(
-                            // 文案框内边距
-                            padding: EdgeInsets.all(12),
-                            child: Text('hello'),
-                          ),
-                        ),
-                      );
+                      MegaToast.loading(context, 'Loading');
+                      // MegaToast.custom(
+                      //   context,
+                      //   Card(
+                      //     child: Padding(
+                      //       // 文案框内边距
+                      //       padding: EdgeInsets.all(12),
+                      //       child: Text('hello'),
+                      //     ),
+                      //   ),
+                      // );
                     },
                     child: Text(
                       'reset',
