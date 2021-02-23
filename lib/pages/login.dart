@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hello/router.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:hello/widgets/mega_message.dart';
 import '../store/counter.dart';
-import '../widgets/mega_message.dart';
+import '../widgets/mega_toast.dart';
 
 class LoginPage extends HookWidget {
   @override
@@ -30,7 +29,17 @@ class LoginPage extends HookWidget {
                       //     duration: 0, onClose: () {
                       //   MegaMessage.info(context, 'finished');
                       // });
-                      MegaMessage.info(context, 'finished');
+                      // MegaToast.error(context, 'Loading Data Failed');
+                      MegaToast.custom(
+                        context,
+                        Card(
+                          child: Padding(
+                            // 文案框内边距
+                            padding: EdgeInsets.all(12),
+                            child: Text('hello'),
+                          ),
+                        ),
+                      );
                     },
                     child: Text(
                       'reset',
