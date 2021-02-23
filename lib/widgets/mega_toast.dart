@@ -157,7 +157,7 @@ class MegaToast {
   static info(
     BuildContext context,
     String content, {
-    int duration = 3,
+    int duration,
     Function onClose,
   }) {
     return _show(
@@ -172,7 +172,7 @@ class MegaToast {
   static success(
     BuildContext context,
     String content, {
-    int duration = 3,
+    int duration,
     Function onClose,
   }) {
     return _show(
@@ -187,7 +187,7 @@ class MegaToast {
   static error(
     BuildContext context,
     String content, {
-    int duration = 3,
+    int duration,
     Function onClose,
   }) {
     return _show(
