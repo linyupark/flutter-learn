@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import './mega_hooks/spinner_hook.dart';
 
 class _ToastWidget extends HookWidget {
   /// 入参部分
@@ -35,11 +36,20 @@ class _ToastWidget extends HookWidget {
 
     // 旋转动画控制器
     final AnimationController _repeatController =
-        useAnimationController(duration: Duration(milliseconds: 1000))
-          ..repeat();
+        useAnimationController(duration: Duration(milliseconds: 1000));
 
     // 控制渐变起始数值
     useAnimation(Tween(begin: 0.0, end: 1.0).animate(_fadeInController));
+
+    // 旋转图标
+    RotationTransition spinnerIcon = useMegaSpinnerWidget(
+      child: Icon(
+        IconData(58834, fontFamily: 'MaterialIcons'),
+        color: Colors.white,
+        size: 40,
+      ),
+      repeatController: _repeatController,
+    );
 
     useEffect(() {
       // 淡出效果
@@ -60,15 +70,7 @@ class _ToastWidget extends HookWidget {
 
     if (type == 'loading') {
       _messageText = Column(children: [
-        RotationTransition(
-          // 使用旋转
-          turns: _repeatController,
-          child: Icon(
-            IconData(58834, fontFamily: 'MaterialIcons'),
-            color: Colors.white,
-            size: 40,
-          ),
-        ),
+        spinnerIcon,
         Padding(
           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
           child: Text(content, style: TextStyle(color: Colors.white)),
