@@ -5,6 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../store/counter.dart';
 import '../widgets/mega_toast.dart';
+import '../widgets/mega_list/item_country.dart';
+import '../widgets/mega_list/item_select.dart';
 
 class LoginPage extends HookWidget {
   @override
@@ -16,9 +18,48 @@ class LoginPage extends HookWidget {
               appBar: AppBar(
                 title: Text('Login'),
               ),
-              body: Center(
-                  child: Column(
+              body: ListView(
                 children: [
+                  MegaSelectListHeader(title: 'Select Payout Channel'),
+                  MegaSelectListItem(
+                    onTap: () {
+                      print('hello');
+                    },
+                    content: 'Cash Pickup',
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/1614157053471.jpg',
+                    ),
+                  ),
+                  MegaSelectListHeader(title: 'Recent'),
+                  MegaSelectListItem(
+                    content: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        MegaSelectListItem.buildTitle(context, 'Zoe'),
+                        MegaSelectListItem.buildSubTitle(
+                            context, 'Cash Pickup - Robinsons Departq...'),
+                      ],
+                    ),
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/recent.jpeg',
+                    ),
+                    arrow: false,
+                  ),
+                  MegaCountryListItem(
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/country/china.png',
+                    ),
+                    name: 'China',
+                    code: '+86',
+                  ),
+                  MegaCountryListItem(
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/country/china.png',
+                    ),
+                    name: 'China',
+                    code: '+86',
+                  ),
                   Text(
                     'Login, global number: ${counter0.value}. ${counter0.username}',
                   ),
@@ -48,14 +89,15 @@ class LoginPage extends HookWidget {
                     ),
                   ),
                   TextFormField(
-                      decoration: const InputDecoration(
-                          icon: Icon(Icons.person), labelText: 'Last Name'),
-                      initialValue: counter0.user['lastName'],
-                      onChanged: (v) {
-                        counter0.user['lastName'] = v;
-                      })
+                    decoration: const InputDecoration(
+                        icon: Icon(Icons.person), labelText: 'Last Name'),
+                    initialValue: counter0.user['lastName'],
+                    onChanged: (v) {
+                      counter0.user['lastName'] = v;
+                    },
+                  )
                 ],
-              )),
+              ),
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.exit_to_app),
                 onPressed: () {

@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import './mega_hooks/spinner_hook.dart';
+import './mega_spinner.dart';
+
+/*
+ * MegaToast （轻提示组件）
+ * 
+ * 常规消息：
+ * MegaToast.info|success|error|loading
+ * (BuildContext context, String content, int duration, Function onClose);
+ * 
+ * 自定义内容：
+ * MegaToast.custom(context, widget, vh, vw, duration, onClose);
+ * 
+ * 当 duration 为0 时会返回销毁用的 dispose 方法，执行后消息消失
+ */
 
 class _ToastWidget extends HookWidget {
   /// 入参部分
@@ -34,22 +47,16 @@ class _ToastWidget extends HookWidget {
     final AnimationController _fadeInController =
         useAnimationController(duration: _fadeInDuration)..forward();
 
-    // 旋转动画控制器
-    final AnimationController _repeatController =
-        useAnimationController(duration: Duration(milliseconds: 1000));
-
-    // 控制渐变起始数值
-    useAnimation(Tween(begin: 0.0, end: 1.0).animate(_fadeInController));
-
-    // 旋转图标
-    RotationTransition spinnerIcon = useMegaSpinnerWidget(
+    final spinnerIcon = MegaSpinner(
       child: Icon(
         IconData(58834, fontFamily: 'MaterialIcons'),
         color: Colors.white,
         size: 40,
       ),
-      repeatController: _repeatController,
     );
+
+    // 控制渐变起始数值
+    useAnimation(Tween(begin: 0.0, end: 1.0).animate(_fadeInController));
 
     useEffect(() {
       // 淡出效果
@@ -166,7 +173,7 @@ class MegaToast {
   static custom(
     BuildContext context,
     Widget content, {
-    int duration = 3,
+    int duration,
     int vh,
     int vw,
     Function onClose,
@@ -251,6 +258,7 @@ class MegaToast {
     int duration,
     Function onClose,
   }) {
+    // 默认展示时长
     duration = duration ?? 3;
 
     // 创建一个OverlayEntry对象
