@@ -7,6 +7,7 @@ import '../store/counter.dart';
 import '../widgets/mega_toast.dart';
 import '../widgets/mega_list/item_country.dart';
 import '../widgets/mega_list/item_select.dart';
+import '../widgets/mega_list/item_transaction.dart';
 
 class LoginPage extends HookWidget {
   @override
@@ -20,6 +21,21 @@ class LoginPage extends HookWidget {
               ),
               body: ListView(
                 children: [
+                  MegaTransactionListHeader(
+                    date: '2019 - 08',
+                    expenditure: 0.00,
+                    cashIn: 0.00,
+                  ),
+                  MegaTransactionListItem(
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/recent.jpeg',
+                    ),
+                    title: 'Shopping',
+                    descript: 'Angeles Electnc Compa',
+                    datetime: '2019-08-28 11:00',
+                    amount: '-500',
+                    status: 'Expired',
+                  ),
                   MegaSelectListHeader(title: 'Select Payout Channel'),
                   MegaSelectListItem(
                     onTap: () {
