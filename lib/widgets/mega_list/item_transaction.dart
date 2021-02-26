@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../utils/resize.dart';
 import './item_border.dart';
+import './item_title.dart';
 
 // Header
 class MegaTransactionListHeader extends HookWidget {
@@ -128,20 +129,6 @@ class MegaTransactionListItem extends HookWidget {
     this.last = false,
   });
 
-  static Widget buildTitle(BuildContext context, String title) {
-    final resize = Resize(context);
-
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: resize.px(14),
-        fontWeight: FontWeight.bold,
-        color: Color(0xFF232323),
-        height: 1,
-      ),
-    );
-  }
-
   static Widget buildDescript(BuildContext context, String descript) {
     final resize = Resize(context);
 
@@ -251,7 +238,7 @@ class MegaTransactionListItem extends HookWidget {
                         Container(
                           height: resize.px(17),
                         ),
-                        MegaTransactionListItem.buildTitle(context, title),
+                        MegaListItemTitle(title: title),
                         MegaTransactionListItem.buildDescript(
                             context, descript),
                         MegaTransactionListItem.buildDate(context, datetime),

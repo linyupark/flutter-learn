@@ -8,6 +8,7 @@ import '../widgets/mega_toast.dart';
 import '../widgets/mega_list/item_country.dart';
 import '../widgets/mega_list/item_select.dart';
 import '../widgets/mega_list/item_transaction.dart';
+import '../widgets/mega_list/item_invite.dart';
 
 class LoginPage extends HookWidget {
   @override
@@ -21,6 +22,34 @@ class LoginPage extends HookWidget {
               ),
               body: ListView(
                 children: [
+                  MegaInviteListHeader(title: 'Invite History'),
+                  MegaInviteListItem(
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/recent.jpeg',
+                    ),
+                    telNo: '+8869xxxxxx839',
+                    status: 'Active',
+                    datetime: '2020-06-11 18:43',
+                    amount: '+500',
+                  ),
+                  MegaInviteListItem(
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/recent.jpeg',
+                    ),
+                    telNo: '+8869xxxxxx839',
+                    status: 'Inactive',
+                    datetime: '2020-06-11 18:43',
+                    amount: '+500',
+                  ),
+                  MegaInviteListItem(
+                    thumb: Image.network(
+                      'http://linyu.dynv6.net:9001/images/icons/recent.jpeg',
+                    ),
+                    telNo: '+8869xxxxxx839',
+                    status: 'Expired',
+                    datetime: '2020-06-11 18:43',
+                    amount: '+500',
+                  ),
                   MegaTransactionListHeader(
                     date: '2019 - 08',
                     expenditure: 0.00,
