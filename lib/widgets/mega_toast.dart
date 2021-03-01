@@ -154,7 +154,7 @@ class _ToastWidget extends HookWidget {
 
     return Positioned(
       top: MediaQuery.of(context).size.height * (vh / 100),
-      child: Material(
+      child: Container(
         child: AnimatedOpacity(
           opacity: _fadeInController.value,
           duration: _fadeInDuration,
