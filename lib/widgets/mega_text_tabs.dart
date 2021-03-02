@@ -5,7 +5,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class MegaTextTabs extends HookWidget {
   // 选中回调
-  final Function(String type, int index) onSelected;
+  final Function onSelected;
   // tab 列表（可选）
   final List<String> tabs;
   // 默认选中序号
@@ -33,12 +33,31 @@ class MegaTextTabs extends HookWidget {
       initialIndex: defaultIndex,
     );
 
+    final setIndex = (int index) {
+      _tabController.index = index;
+      onSelected({
+        'text': tabs[index],
+        'index': index,
+      });
+    };
+
+    final previousIndex = () {
+      _tabController.index = _tabController.previousIndex;
+      onSelected({
+        'text': tabs[_tabController.index],
+        'index': _tabController.index,
+      });
+    };
+
     final _tabOnChangeListener = () {
       // 避免二次执行，在改变中就执行
       if (_tabController.indexIsChanging) {
-        // print(
-        //     '_tabController.previousIndex: ${_tabController.previousIndex}, index: ${_tabController.index}');
-        onSelected(tabs[_tabController.index], _tabController.index);
+        onSelected({
+          'text': tabs[_tabController.index],
+          'index': _tabController.index,
+          'previousIndex': previousIndex,
+          'setIndex': setIndex,
+        });
       }
     };
 
@@ -48,7 +67,12 @@ class MegaTextTabs extends HookWidget {
 
       // 这里没有延迟会有并发渲染报错（why）
       Timer(Duration(milliseconds: 1), () {
-        onSelected(tabs[_tabController.index], _tabController.index);
+        onSelected({
+          'text': tabs[_tabController.index],
+          'index': _tabController.index,
+          'previousIndex': previousIndex,
+          'setIndex': setIndex,
+        });
       });
       return () {};
     }, []);

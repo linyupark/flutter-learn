@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import '../widgets/mega_trans_type_tabs.dart';
+import '../widgets/mega_text_tabs.dart';
 
 class TabPage extends HookWidget {
   @override
@@ -9,19 +9,21 @@ class TabPage extends HookWidget {
     final _currentDateRange = useState('');
     final _customDateRange = useState('');
 
-    final _onTransDateRangeSelected = (range, _) async {
-      _currentDateRange.value = range;
-      if (range == 'Custom') {
-        print('load');
+    final _onTransDateRangeSelected = (data) async {
+      _currentDateRange.value = data['text'];
+      if (data['text'] == 'Custom') {
         Locale myLocale = Localizations.localeOf(context);
-        var picker = await showDatePicker(
+        var picker = await showDateRangePicker(
           context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2016),
-          lastDate: DateTime(2022),
+          firstDate: DateTime(2020, 6),
+          lastDate: DateTime(2022, 3),
           locale: myLocale,
         );
-        _customDateRange.value = picker.toString();
+        if (picker.toString() != 'null') {
+          _customDateRange.value = picker.toString();
+        } else {
+          data['previousIndex']();
+        }
       }
     };
 
@@ -32,9 +34,8 @@ class TabPage extends HookWidget {
       body: Column(children: <Widget>[
         Container(
           child: MegaTextTabs(
-            onSelected: (type, _) {
-              // print('type $type');
-              _currentType.value = type;
+            onSelected: (data) {
+              _currentType.value = data['text'];
             },
           ),
         ),
@@ -51,12 +52,14 @@ class TabPage extends HookWidget {
               Text(_currentType.value),
               Text(' | '),
               Text(_currentDateRange.value),
-              _customDateRange.value != ''
-                  ? Text(_customDateRange.value)
-                  : Text(''),
             ],
           ),
         ),
+        Container(
+          child: _customDateRange.value != ''
+              ? Text(_customDateRange.value)
+              : Text(''),
+        )
       ]),
     );
   }
