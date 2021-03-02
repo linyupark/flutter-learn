@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: 'Flutter Tutorial',
-        initialRoute: 'index',
+        initialRoute: 'tab',
         onGenerateRoute: AppRouter.router.generator);
   }
 }
